@@ -1,4 +1,6 @@
 import os
+import json
+import glob
 import tkinter
 
 appName = "StyxClient"
@@ -76,7 +78,7 @@ saveOptions()
 win = tkinter.Tk()
 win.title(appName)
 win.config(bg="#151515")
-win.geometry("300x300")
+win.geometry("450x700")
 
 font = ("Yu Gothic Light", 20)
 
@@ -179,6 +181,26 @@ def optimizeClick():
 
 optimizeBtn.config(command=optimizeClick)
 
+rpTitle = tkinter.Label(win, text="Resource Packs", bg="#151515", font=("Yu Gothic Semibold", 25), fg="white")
+rpTitle.pack()
 
+resourcepacks = json.loads(optionsDict["resourcePacks"])
+for pack in resourcepacks:
+    packname = pack.replace("file/","")
+    if pack != "vanilla":
+        try:
+            packPath = os.getenv('APPDATA') + "\\.minecraft\\resourcepacks\\" + packname
+            with open(packPath, "w") as testFile:
+                pass
+        except:
+            print(f"Invalid resourcepack path {packPath}.")
 
+        rpTxt = tkinter.Button(win, text="• " + packname, bg="#151515", font=font, fg="white", command=lambda: os.system("start  "+ packPath), relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
+        rpTxt.pack(anchor="w", padx=100)
+
+rpTitle = tkinter.Label(win, text="X-Ray", bg="#151515", font=("Yu Gothic Semibold", 25), fg="white")
+rpTitle.pack()
+
+optionsTitle = tkinter.Label(win, text="\nPlease don't cheat where it is forbidden.\nIt does more harm than good.\nYou will get bored soon, if you cheat.", bg="#151515", font=("Yu Gothic Semibold", 10, "italic"), fg="gray")
+optionsTitle.pack()
 win.mainloop()
