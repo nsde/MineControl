@@ -1,5 +1,4 @@
 import os
-import yaml
 import tkinter
 
 appName = "StyxClient"
@@ -62,11 +61,11 @@ def fastgfxOff():
     optionsDict["entityShadows"] = "true"
     return optionsDict
 
-def toggleSneak116():
+def togglesneak116():
     optionsDict["toggleCrouch"] = "true"
     return optionsDict
 
-def toggleSneak116Off():
+def togglesneak116Off():
     optionsDict["toggleCrouch"] = "false"
     return optionsDict
 
@@ -79,11 +78,37 @@ win.title(appName)
 win.config(bg="#151515")
 win.geometry("300x300")
 
-# saveBtn = tkinter.Button(text="Save", fg="white", bg="#151515", command=saveOptions, font=20, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
-# saveBtn.pack()
+font = ("Yu Gothic Light", 20)
+
+optionsTitle = tkinter.Label(win, text="Options", bg="#151515", font=("Yu Gothic Semibold", 25), fg="white")
+optionsTitle.pack()
+
+# Toggle Sneak Vanilla 1.16
+togglesneak116Btn = tkinter.Button(win, text="[1.16+] ToggleSneak", bg="#151515", font=font, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
+togglesneak116Btn.pack()
+def istogglesneak116():
+    if optionsDict["toggleCrouch"] == "true":
+        togglesneak116Btn["fg"] = "green"
+        return True
+    else:
+        togglesneak116Btn["fg"] = "red"
+        return False
+
+togglesneak116On = istogglesneak116()
+
+def togglesneak116Click():
+    togglesneak116On = istogglesneak116()
+    if togglesneak116On:
+        togglesneak116Off()
+    else:
+        togglesneak116()
+    saveOptions()
+    togglesneak116On = istogglesneak116()
+
+togglesneak116Btn.config(command=togglesneak116Click)
 
 # FullBright
-fullbrightBtn = tkinter.Button(win, text="FullBright", bg="#151515", font=20, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
+fullbrightBtn = tkinter.Button(win, text="FullBright", bg="#151515", font=font, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
 fullbrightBtn.pack()
 def isFullbright():
     if optionsDict["gamma"] == "1000":
@@ -107,7 +132,7 @@ def fullBrightClick():
 fullbrightBtn.config(command=fullBrightClick)
 
 # FastGFX
-fastgfxBtn = tkinter.Button(win, text="FastGFX", bg="#151515", font=20, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
+fastgfxBtn = tkinter.Button(win, text="FastGFX", bg="#151515", font=font, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
 fastgfxBtn.pack()
 def isfastgfx():
     if optionsDict["graphicsMode"] == "0" and optionsDict["maxFps"] == "60" and optionsDict["entityShadows"] == "false":
@@ -131,7 +156,7 @@ def fastgfxClick():
 fastgfxBtn.config(command=fastgfxClick)
 
 # Optimize
-optimizeBtn = tkinter.Button(win, text="Optimize", bg="#151515", font=20, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
+optimizeBtn = tkinter.Button(win, text="Optimize", bg="#151515", font=font, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
 optimizeBtn.pack()
 def isOptimize():
     if optionsDict["soundCategory_ambient"] == "0.0" and optionsDict["soundCategory_music"] == "0.0" and optionsDict["autoJump"] == "false" and optionsDict["snooperEnabled"] == "false":
@@ -153,5 +178,7 @@ def optimizeClick():
     optimizeOn = isOptimize()
 
 optimizeBtn.config(command=optimizeClick)
+
+
 
 win.mainloop()

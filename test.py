@@ -1,22 +1,22 @@
-fastgfxBtn = tkinter.Button(win, text="fastgfx", bg="#151515", font=20, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
-fastgfxBtn.pack()
-def isfastgfx():
+togglesneak116Btn = tkinter.Button(win, text="togglesneak116", bg="#151515", font=20, relief="flat", activebackground="#151515", activeforeground="#6E6E6E")
+togglesneak116Btn.pack()
+def istogglesneak116():
     if optionsDict["graphicsMode"] == "0" and optionsDict["maxFps"] == "60" and optionsDict["entityShadows"] == "false":
-        fastgfxBtn["fg"] = "green"
+        togglesneak116Btn["fg"] = "green"
         return True
     else:
-        fastgfxBtn["fg"] = "red"
+        togglesneak116Btn["fg"] = "red"
         return False
 
-fastgfxOn = isfastgfx()
+togglesneak116On = istogglesneak116()
 
-def fastgfxClick():
-    fastgfxOn = isfastgfx()
-    if fastgfxOn:
-        fastgfxOff()
+def togglesneak116Click():
+    togglesneak116On = istogglesneak116()
+    if togglesneak116On:
+        togglesneak116Off()
     else:
-        fastgfx()
+        togglesneak116()
     saveOptions()
-    fastgfxOn = isfastgfx()
+    togglesneak116On = istogglesneak116()
 
-fastgfxBtn.config(command=fastgfxClick)
+togglesneak116Btn.config(command=togglesneak116Click)
