@@ -1,7 +1,11 @@
 import os
 import json
 import glob
+import time
 import tkinter
+import keyboard
+# from pynput import keyboard
+import pydirectinput as pdi
 
 appName = "StyxClient"
 
@@ -187,7 +191,7 @@ rpTitle.pack()
 resourcepacks = json.loads(optionsDict["resourcePacks"])
 for pack in resourcepacks:
     packname = pack.replace("file/","")
-    if pack != "vanilla":
+    if pack != "vanilla" and "fabric" not in pack:
         try:
             packPath = os.getenv('APPDATA') + "\\.minecraft\\resourcepacks\\" + packname
             with open(packPath, "w") as testFile:
@@ -201,6 +205,23 @@ for pack in resourcepacks:
 rpTitle = tkinter.Label(win, text="X-Ray", bg="#151515", font=("Yu Gothic Semibold", 25), fg="white")
 rpTitle.pack()
 
+
+def autoClick(button):
+    with open(os.getcwd() + "\\temp\\autoClick", "w+") as autoClickFile:
+        autoClickEnabled = bool(autoClickFile.read())
+        if autoClickEnabled:
+            pdi.mouseUp(button=button)
+            autoClickFile.write("False")
+        else:
+            pdi.mouseDown(button=button)
+            autoClickFile.write("True")
+
+keyboard.add_hotkey('x', autoClick, args=())
+keyboard.add_hotkey('y', autoClick, args=())
+keyboard.add_hotkey('z', pdi.moveTo, args=(0,0))
+
+
 optionsTitle = tkinter.Label(win, text="\nPlease don't cheat where it is forbidden.\nIt does more harm than good.\nYou will get bored soon, if you cheat.", bg="#151515", font=("Yu Gothic Semibold", 10, "italic"), fg="gray")
 optionsTitle.pack()
 win.mainloop()
+
