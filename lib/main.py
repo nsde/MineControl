@@ -4,8 +4,11 @@ import glob
 import time
 import tkinter
 import keyboard
-# from pynput import keyboard
+
 import pydirectinput as pdi
+
+# from pynput import keyboard
+from functools import partial
 
 appName = "StyxClient"
 
@@ -206,18 +209,24 @@ rpTitle = tkinter.Label(win, text="X-Ray", bg="#151515", font=("Yu Gothic Semibo
 rpTitle.pack()
 
 
-def autoClick(button):
+def autoClick(button="left"):
     with open(os.getcwd() + "\\temp\\autoClick", "w+") as autoClickFile:
         autoClickEnabled = bool(autoClickFile.read())
-        if autoClickEnabled:
-            pdi.mouseUp(button=button)
-            autoClickFile.write("False")
-        else:
-            pdi.mouseDown(button=button)
-            autoClickFile.write("True")
 
-keyboard.add_hotkey('x', autoClick, args=())
-keyboard.add_hotkey('y', autoClick, args=())
+        if autoClickEnabled:
+            autoClickFile.write("False")
+            autoClickEnabled = False
+        else:
+            autoClickFile.write("True")
+            autoClickEnabled = True
+
+        while autoClickEnabled:
+            pdi.click(button=button)
+
+
+
+keyboard.add_hotkey('x', partial(autoClick, "right"))
+keyboard.add_hotkey('y', partial(autoClick, "left"))
 keyboard.add_hotkey('z', pdi.moveTo, args=(0,0))
 
 
